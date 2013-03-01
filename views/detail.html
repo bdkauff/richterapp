@@ -1,0 +1,63 @@
+<div class="row">
+	
+	<!-- first column w/ image-->
+	<div class="span4">
+		<img src="{{astro.photo}}" alt="photo of astronaut {{astro.name}}" class="img-polaroid" width="320px"><br>
+		
+		source: 
+		<a href="{{astro.source.url}}" class="small">
+			{{astro.source.name}}
+		</a>
+
+	</div>
+	
+	<!-- second column w/ details-->
+	<div class="span4">
+		<h2>{{astro.name}}</h2>
+		<hr>
+
+		<div>
+			Born:{{astro.formattedBirthdate}}
+			<br>
+
+			Skills: {{astro.skills}}<br>
+			
+			Missions:
+			<ul>
+				{{#astro.missions}}
+				<li>{{.}}</li>
+				{{/astro.missions}}
+				{{^astro.missions}}
+				No missions yet.
+				{{/astro.missions}}
+			</ul>
+		</div>
+
+		{{#astro.walkedOnMoon}}
+		<div>
+			<h3>WALKED ON THE MOON!</h3>
+			<img src="http://gifs.gifbin.com/062009/1246007745_michael_moonwalking.gif" alt="moonwalking animated gif with michael jackson">
+		</div>
+		{{/astro.walkedOnMoon}}
+
+		{{^astro.walkedOnMoon}}
+		NEVER GOT TO THE MOON :(
+		{{/astro.walkedOnMoon}}
+
+	</div>
+
+	<!-- third column w/ listings -->
+	<div class="span2">
+		<h3>Astronauts</h3>
+		<hr>
+		{{#astros}}
+		<li>
+			<a href="/astronauts/{{slug}}">{{name}}</a>
+		</li>
+		{{/astros}}
+
+		<br>
+		<a href="/create">Add new astronaut</a>
+	</div>
+
+</div>
