@@ -33,7 +33,7 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 
-  // database - skipping until week 5
+ 
   app.db = mongoose.connect(process.env.MONGOLAB_URI);
   
 });
@@ -57,16 +57,11 @@ COOKIEHASH in your .env file (also share with heroku)
 // ROUTES
 
 var routes = require('./routes/index.js');
+app.get('/', routes.index); // this is your main page
+app.get('/abstractpaintings', routes.page2);
+app.get('/colorcharts', routes.page3);
+app.get('/loadPaintings', routes.loadData);
 
-app.get('/', routes.index);
-
-app.get('/astronauts/:astro_id', routes.detail);
-
-//new astronaut routes
-app.get('/create',routes.astroForm); //display form
-app.post('/create',routes.createAstro); //form POST submits here
-
-app.get('/loadastros', routes.loadData); // load in astronauts array into db
 
 
 // create NodeJS HTTP server using 'app'
