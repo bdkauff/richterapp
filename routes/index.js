@@ -34,7 +34,7 @@ var cheerio = require('cheerio');
 exports.index = function(req, res) {
 	
 	console.log("main page requested");
-	// anything I want to put into that object, its in templateData!
+
 	var templateData = {
 		pageTitle : "Welcome to the Gerhard Richter Scraper!"
 
@@ -47,7 +47,7 @@ exports.page2 = function(req, res) {
 	
 	console.log("second page requested");
 	// anything I want to put into that object, its in templateData!
-
+	richterModel.find( {}, 'pageTitle photos', function(err, getPhotos) {
 
 	getPhotos('1995-1999', function (photos) {
 		var templateData = {
@@ -57,7 +57,7 @@ exports.page2 = function(req, res) {
 		res.render('detail.html', templateData);	
 	})
 
-	
+});	
 }
 
 exports.page3 = function(req, res) {
@@ -79,6 +79,30 @@ exports.page3 = function(req, res) {
 
 
 
+
+
+
+exports.loadData = function(req, res) {
+	for(p in photos) {
+		currPhoto = photos[a];
+
+		//prepate URL's for database
+		tmpPhoto = new richterModel();
+		tmpPhoto.pageTitle = currPhoto.pageTite;
+		tmpPhoto.photos = currPhoto.photos;
+		tmpPhoto.save(function(err){
+			// if an error occurred on save.
+			if (err) {
+				console.error("error on save");
+				console.error(err);
+			} else {
+				console.log("Photo loaded/saved in database");
+			}
+		});
+
+	}
+	return res.send("loaded photos!");
+} 
 
 // THE SCRAPER
 
@@ -117,28 +141,6 @@ var getPhotos = function(category, callback) {
 	  callback(photos);
 	});
 }
-
-exports.loadData = function(req, res) {
-	for(p in photos) {
-		currPhoto = photos[a];
-
-		//prepate URL's for database
-		tmpPhoto = new richterModel();
-		tmpPhoto.pageTitle = currPhoto.pageTite;
-		tmpPhoto.photos = currPhoto.photos;
-		tmpPhoto.save(function(err){
-			// if an error occurred on save.
-			if (err) {
-				console.error("error on save");
-				console.error(err);
-			} else {
-				console.log("Photo loaded/saved in database");
-			}
-		});
-
-	}
-	return res.send("loaded photos!");
-} 
 
 
 
