@@ -32,8 +32,7 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
-
- 
+  
   app.db = mongoose.connect(process.env.MONGOLAB_URI);
   
 });

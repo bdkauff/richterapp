@@ -47,64 +47,100 @@ exports.page2 = function(req, res) {
 	
 	console.log("second page requested");
 	// anything I want to put into that object, its in templateData!
-	richterModel.find( {}, 'pageTitle photos', function(err, getPhotos) {
+	richterModel.find( {}, 'photoURL', function(err, response) {
 
-	getPhotos('1995-1999', function (photos) {
-		var templateData = {
-			pageTitle : "Gerhard's Abstract Paintings",
-			photographs : photos
+		if (response.length > 0) {
+			//console.log("found richterModels")
+			//console.log(response)
+			
+			var templateData = {
+				pageTitle : "Gerhard's Abstract Paintings",
+				photographs : response
+			}
+			res.render('detail.html', templateData);
+		} else {
+			
 		}
-		res.render('detail.html', templateData);	
-	})
 
 });	
 }
 
 exports.page3 = function(req, res) {
 	
-	console.log("third page requested");
+	
+	console.log("second page requested");
 	// anything I want to put into that object, its in templateData!
-	getPhotos('colorCharts', function (photos) {
-		var templateData = {
-			pageTitle : "Gerhard's Color Charts",
-			photographs : photos
-			}
+	richterModel.find( {}, 'photoURL', function(err, response) {
 
-		res.render('detail.html', templateData);
-	// end of the callback
-	}
-	// end of getPhotos
-	)
+		if (response.length > 0) {
+			//console.log("found richterModels")
+			//console.log(response)
+			
+			var templateData = {
+				pageTitle : "Gerhard's Color Charts",
+				photographs : response
+			}
+			res.render('detail.html', templateData);
+		} else {
+
+		}
+
+});	
 }
 
-
-
-
-
-
 exports.loadData = function(req, res) {
-	for(p in photos) {
-		currPhoto = photos[a];
+	
+	// not elegant, but this is getPhotos for colorCharts
+	getPhotos('colorCharts', function (photos) {
+		
+		for(p in photos) {
+			currPhoto = photos[p];
+			//console.log("currPhoto" + ":" + currPhoto.photoURL)
+			// {index:
+			//  photoUrl: }
 
-		//prepate URL's for database
-		tmpPhoto = new richterModel();
-		tmpPhoto.pageTitle = currPhoto.pageTite;
-		tmpPhoto.photos = currPhoto.photos;
-		tmpPhoto.save(function(err){
-			// if an error occurred on save.
-			if (err) {
-				console.error("error on save");
-				console.error(err);
-			} else {
-				console.log("Photo loaded/saved in database");
-			}
-		});
+			//prepate URL's for database
+			tmpPhoto = new richterModel();
+			tmpPhoto.photoURL = currPhoto.photoURL;
+			tmpPhoto.save(function(err){
+				// if an error occurred on save.
+				if (err) {
+					console.error("error on save");
+					console.error(err);
+				} else {
+					console.log("color charts loaded/saved in database");
+				}
+			});
 
-	}
-	return res.send("loaded photos!");
+		}
+		return res.send("loaded photos!");
+	});
+
+	// ...and this runs getPhotos for the abstracts
+	getPhotos('1995-1999', function (photos) {
+		
+		for(p in photos) {
+			currPhoto = photos[p];
+
+			//prepate URL's for database
+			tmpPhoto = new richterModel();
+			tmpPhoto.photoURL = currPhoto.photoURL;
+			tmpPhoto.save(function(err){
+				// if an error occurred on save.
+				if (err) {
+					console.error("error on save");
+					console.error(err);
+				} else {
+					console.log("abstracts loaded/saved in database");
+				}
+			});
+
+		}
+		return res.send("loaded photos!");
+	});
 } 
 
-// THE SCRAPER
+// THE SCRAPER ITSELF!!!
 
 var categories = {
 	'colorCharts':12,
@@ -134,7 +170,7 @@ var getPhotos = function(category, callback) {
 	    })
 
 
-	    console.log(photos);
+	    //console.log(photos);
 
 	  });
 	  // now, return photos as a parameter to the callback.
