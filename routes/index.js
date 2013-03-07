@@ -88,7 +88,7 @@ exports.page3 = function(req, res) {
 });	
 }
 
-exports.loadData = function(req, res) {
+exports.loadData = function(req, res) {	 
 	
 	// not elegant, but this is getPhotos for colorCharts
 	getPhotos('colorCharts', function (photos) {
