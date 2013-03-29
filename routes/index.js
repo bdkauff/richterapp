@@ -148,7 +148,7 @@ var getPhotos = function(category, callback) {
 
 exports.data_all = function(req, res) {
 	var photoQuery = richterModel.find({});
-	photoQuery.exec(function(err, response))
+	photoQuery.exec(function(err, response) {
 
 
 var jsonData = {
@@ -157,7 +157,7 @@ var jsonData = {
 
 }
 res.json(jsonData)
-
+});
 
 }
 
