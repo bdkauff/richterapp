@@ -1,34 +1,8 @@
 
-/*
- * routes/index.js
- * 
- * Routes contains the functions (callbacks) associated with request urls.
- */
-
 var moment = require("moment"); // date manipulation library
 var richterModel = require("../models/richter.js"); //db model
 var request = require('request');
 var cheerio = require('cheerio');
-
-/*
-	GET /
-*/
-
-/*
- * routes/index.js
- * 
- * Routes contains the functions (callbacks) associated with request urls.
- */
-
-/*
-	GET /
-*/
-
-
-/*
-	GET /
-*/
-
 
 
 exports.index = function(req, res) {
@@ -82,15 +56,14 @@ exports.page3 = function(req, res) {
 			}
 			res.render('detail.html', templateData);
 		} else {
-
-		}
+	}
 
 });	
 }
 
 exports.loadData = function(req, res) {	 
 	
-	// not elegant, but this is getPhotos for colorCharts
+// not elegant, but this is getPhotos for colorCharts
 	getPhotos('colorCharts', function (photos) {
 		
 		for(p in photos) {
@@ -111,12 +84,11 @@ exports.loadData = function(req, res) {
 					console.log("color charts loaded/saved in database");
 				}
 			});
-
 		}
 		return res.send("loaded photos!");
 	});
 
-	// ...and this runs getPhotos for the abstracts
+// ...and this runs getPhotos for the abstracts
 	getPhotos('1995-1999', function (photos) {
 		
 		for(p in photos) {
@@ -134,7 +106,6 @@ exports.loadData = function(req, res) {
 					console.log("abstracts loaded/saved in database");
 				}
 			});
-
 		}
 		return res.send("loaded photos!");
 	});
@@ -167,15 +138,27 @@ var getPhotos = function(category, callback) {
 	    photos.push({
 	    	index: i,
 	    	photoURL : tempPhotos[i]
-	    })
+	    	})
 
-
-	    //console.log(photos);
-
-	  });
+		 });
 	  // now, return photos as a parameter to the callback.
 	  callback(photos);
 	});
+}
+
+exports.data_all = function(req, res) {
+	var photoQuery = richterModel.find({});
+	photoQuery.exec(function(err, response))
+
+
+var jsonData = {
+	status : "OK",
+	photoResult : response
+
+}
+res.json(jsonData)
+
+
 }
 
 

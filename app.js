@@ -60,6 +60,7 @@ app.get('/', routes.index); // this is your main page
 app.get('/abstractpaintings', routes.page2);
 app.get('/colorcharts', routes.page3);
 app.get('/loadPaintings', routes.loadData);
+app.get('/data', routes.data_all);
 
 
 
