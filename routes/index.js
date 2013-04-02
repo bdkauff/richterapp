@@ -135,11 +135,12 @@ var getPhotos = function(category, callback) {
 	  $(links).each(function(i, link){
 	    tempPhotos[i] = imageAppendURL + $(link).attr('src'); 
 	    //console.log(imageAppendURL + $(link).attr('src'))
+	    if (tempPhotos[i] != "http://www.gerhard-richter.com//images/size_o__thumb_1__imageid_.jpg") {
 	    photos.push({
 	    	index: i,
 	    	photoURL : tempPhotos[i]
 	    	})
-
+	    	}
 		 });
 	  // now, return photos as a parameter to the callback.
 	  callback(photos);
